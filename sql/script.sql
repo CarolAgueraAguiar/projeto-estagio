@@ -1,6 +1,9 @@
+CREATE DATABASE IF NOT EXISTS
+projectecode;
+USE projectecode;
 
-CREATE TABLE `pessoa` (
-  `id` int(11) NOT NULL,
+CREATE TABLE pessoa (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(200) NOT NULL,
   `dataNascimento` date NOT NULL,
   `cpf` varchar(45) NOT NULL,
@@ -16,8 +19,9 @@ CREATE TABLE `pessoa` (
   `cep` varchar(45) NOT NULL,
   `numero` int(11) NOT NULL,
   `cidade` varchar(100) NOT NULL,
-  `estado` varchar(2) NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `estado` varchar(15) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
