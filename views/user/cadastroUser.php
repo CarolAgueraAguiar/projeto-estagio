@@ -29,7 +29,7 @@ if (isset($_POST['salvar'])) {
     VALUES ('{$nome}','{$email}','{$senhaCriptografada}','{$dataNascimento}','{$cpf}','{$rg}','{$sexo}','{$endereco}','{$numero}','{$bairro}','{$complemento}','{$cidade}','{$estado}','{$cep}','{$telefone}','{$celular}','{$statusAtualizar}')";
     mysqli_query($conexao, $sql);
     mysqli_close($conexao);
-    header("Refresh: 0; url = IndexAdm.php");
+    header("Refresh: 0; url = ../../index.php");
 }
 require_once('../../dependencias.php');
 ?>
@@ -54,6 +54,7 @@ require_once('../../dependencias.php');
             border-radius: 2%;
         }
     </style>
+
     <script>
         function limpa_formulário_cep() {
             document.getElementById('rua').value = ("");
@@ -139,7 +140,7 @@ require_once('../../dependencias.php');
                 </div>
                 <div class="col-md-4">
                     <label for="inputCPF" class="form-label">CPF</label>
-                    <input name="cpf" class="form-control">
+                    <input name="cpf" id="cpf" class="form-control">
                 </div>
                 <div class="col-md-4">
                     <label for="inputRG" class="form-label">RG</label>
@@ -155,11 +156,11 @@ require_once('../../dependencias.php');
                 </div>
                 <div class="col-md-4">
                     <label for="inputCEP" class="form-label">CEP</label>
-                    <input name="cep" type="text" id="cep" value="" size="10" maxlength="9" placeholder="digite seu CEP" onblur="pesquisacep(this.value);" class="form-control" >
+                    <input name="cep" type="text" id="cep" value="" size="10" maxlength="9" placeholder="digite seu CEP" onblur="pesquisacep(this.value);" class="form-control">
                 </div>
                 <div class="col-md-8">
                     <label for="inputEndereco" class="form-label">Endereco</label>
-                    <input  name="rua" type="text" id="rua" size="60" class="form-control" placeholder="Rua dos Bobos">
+                    <input name="rua" type="text" id="rua" size="60" class="form-control" placeholder="Rua dos Bobos">
                 </div>
                 <div class="col-md-2">
                     <label for="inputNumero" class="form-label">Número</label>
@@ -175,7 +176,7 @@ require_once('../../dependencias.php');
                 </div>
                 <div class="col-md-6">
                     <label for="inputCidade" class="form-label">Cidade</label>
-                    <input name="cidade" type="text" id="cidade" size="40"  class="form-control" >
+                    <input name="cidade" type="text" id="cidade" size="40" class="form-control">
                 </div>
                 <div class="col-md-6">
                     <label for="inputEstado" class="form-label">Estado</label>
@@ -183,11 +184,11 @@ require_once('../../dependencias.php');
                 </div>
                 <div class="col-md-4">
                     <label for="inputTelefone" class="form-label">Telefone</label>
-                    <input type="text" name="telefone" class="form-control" id="inputTelefone">
+                    <input type="text" name="telefone" class="form-control" id="telefone">
                 </div>
                 <div class="col-md-4">
                     <label for="inputCelular" class="form-label">Celular</label>
-                    <input type="text" name="celular" class="form-control" id="inputCelular">
+                    <input type="text" name="celular" class="form-control" id="celular">
                 </div>
                 <div class="form-group col-md-4"><label class="control-label" for="statusAtualizar">Status</label>
                     <div class="input-group">
@@ -206,7 +207,15 @@ require_once('../../dependencias.php');
             </form>
         </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//assets.locaweb.com.br/locastyle/2.0.6/javascripts/locastyle.js"></script>
+
     <script>
+        $('#cpf').mask('000.000.000-00', {
+            reverse: true
+        });
+        $('#telefone').mask('(00) 0000-0000');
+        $('#celular').mask('(00) 00000-0000');
         function teste1(tag) {
             let labelStatus = document.getElementById('statuscadastrar');
             if (tag.value == '1') {

@@ -45,7 +45,7 @@ require_once('../../dependencias.php');
             <div class="card col">
                 <div class="card-body">
                     <h5 class="card-title">Alterar Cadastro</h5>
-                    <a href="../user/listarUser.php" class="btn btn-warning" style="width: 100%;">Alterar</a>
+                    <a href="./listarUser.php" class="btn btn-warning" style="width: 100%;">Alterar</a>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 require_once('../../verificarSessaoUser.php');
 
 $conexao = mysqli_connect('mysql-container', 'root', 'ecode', 'projectecode');
-$sqlPesquisar = "select * from pessoa" . $where;
+$sqlPesquisar = "select * from pessoa where id =" . $_SESSION['id'];
 $usuarios = mysqli_query($conexao, $sqlPesquisar);
 mysqli_close($conexao);
 

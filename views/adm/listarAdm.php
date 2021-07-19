@@ -94,7 +94,7 @@ require_once('../../dependencias.php');
             </form>
         </div>
         <div class="col-sm-2">
-            <a class="btn btn-success" style="float: right;" href="/views/adm/cadastroAdm.php">CADASTRAR USUÁRIO</a>
+            <a class="btn btn-success" style="float: right;" href="/views/adm/cadastroAdm.php">CADASTRAR</a>
         </div>
         <div class="col-sm-1">
             <a class="btn btn-outline-primary buton" style="float: right;" href="IndexAdm.php">INÍCIO</a>
