@@ -14,16 +14,17 @@ if (isset($_POST['email'])  && isset($_POST['senha'])) {
             if (!isset($_SESSION)) {
                 session_start();
             }
-            $_SESSION['id']    = $usuario['id'];
+            $_SESSION['id']= $usuario['id'];
             $_SESSION['nome']  = $usuario['nome'];
             $_SESSION['email'] = $usuario['email'];
+            $_SESSION['tipo'] = 'user';
 
-            header('location: views/user/IndexUser.php');
+            header('location: ./indexUser.php');
             die();
         
     }else{
-        $mensagem = "Usuário/Senha inválidos";
-        header("location: index.php?mensagem={$mensagem}");
+        $mensagem = "Usuário/Senha inválidos de usuário";
+        header("location: ../../index.php?mensagem2={$mensagem}");
         die();
     }
 }

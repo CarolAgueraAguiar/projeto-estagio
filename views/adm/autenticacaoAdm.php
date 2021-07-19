@@ -17,13 +17,14 @@ if (isset($_POST['email'])  && isset($_POST['senha'])) {
             $_SESSION['id']    = $usuario['id'];
             $_SESSION['nome']  = $usuario['nome'];
             $_SESSION['email'] = $usuario['email'];
+            $_SESSION['tipo'] = 'admin';
 
             header('location: /views/adm/IndexAdm.php');
             die();
         
     }else{
-        $mensagem = "Usuário/Senha inválidos";
-        header("location: index.php?mensagem={$mensagem}");
+        $mensagem2 = "Usuário/Senha inválidos";
+        header("location: ../../index.php?mensagem2={$mensagem2}");
         die();
     }
 }

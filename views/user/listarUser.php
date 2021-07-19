@@ -1,19 +1,66 @@
 <?php
-require_once('../../dependencias.php');
-function formataData($data)
-{
-    return substr($data, 8, 2) . "/" .
-        substr($data, 5, 2) . "/" .
-        substr($data, 0, 4);
-}
+require_once('../../verificarSessaoUser.php');
+
 $conexao = mysqli_connect('mysql-container', 'root', 'ecode', 'projectecode');
-$where = "";
-if (!empty($_POST['nomePesquisar'])) {
-    $where = " where nome like '%" . $_POST['nomePesquisar'] . "%'";
-}
 $sqlPesquisar = "select * from pessoa" . $where;
 $usuarios = mysqli_query($conexao, $sqlPesquisar);
 mysqli_close($conexao);
+
+if (isset($_POST['atualizar'])) {
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $dataNascimento = $_POST['dataNascimento'];
+    $cpf = $_POST['cpf'];
+    $rg = $_POST['rg'];
+    $sexo = $_POST['sexo'];
+    $endereco = $_POST['endereco'];
+    $numero = $_POST['numero'];
+    $bairro = $_POST['bairro'];
+    $complemento = $_POST['complemento'];
+    $cidade = $_POST['cidade'];
+    $estado = $_POST['estado'];
+    $cep = $_POST['cep'];
+    $telefone = $_POST['telefone'];
+    $celular = $_POST['celular'];
+    if (isset($_POST['status'])) {
+        $statusAtualizar = 1;
+    } else {
+        $statusAtualizar = 0;
+    }
+    $idAtualizar = $_POST['idAtualizar'];
+
+    $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
+    $conexao = mysqli_connect('mysql-container', 'root', 'ecode', 'projectecode');
+
+    $sql = "UPDATE pessoa
+      SET nome     = '{$nome}',
+          email    = '{$email}',
+          senha    = '{$senhaCriptografada}',
+          dataNascimento    = '{$dataNascimento}',
+          cpf    = '{$cpf}',
+          rg    = '{$rg}',
+          sexo    = '{$sexo}',
+          endereco    = '{$endereco}',
+          numero    = '{$numero}',
+          bairro    = '{$bairro}',
+          complemento    = '{$complemento}',
+          cidade    = '{$cidade}',
+          estado    = '{$estado}',
+          cep    = '{$cep}',
+          telefone    = '{$telefone}',
+          celular    = '{$celular}',
+          status    = '{$statusAtualizar}'
+      WHERE id       = {$idAtualizar}";
+
+    mysqli_query($conexao, $sql);
+    mysqli_close($conexao);
+    session_unset();
+    session_destroy();
+    header('location: ../../../index.php');
+    exit();
+}
+require_once('../../dependencias.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -22,178 +69,157 @@ mysqli_close($conexao);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <title>Listar Adm</title>
+    <title>Cadastro de Usuário</title>
     <style>
-        .form-login {
-            margin-top: 5rem;
-            margin-left: auto;
-            margin-right: auto;
+        main {
+            align-items: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
         }
 
-        h2 {
-            text-align: center;
-        }
-
-        @media screen and (max-width: 992px) {
-            .col-sm-3 {
-                display: block !important;
-            }
-
-            .titulo {
-                text-align: center;
-            }
-
-            .btn.btn-success {
-                margin-top: 1rem;
-                width: 100%;
-            }
+        .container {
+            border-radius: 2%;
         }
     </style>
 </head>
 
-<body style="background-color: #F2F2F2;" class="form-login container">
-    <div class="row">
-        <div class="col-sm-4 " style="display: flex; float: left;">
-            <h2 class="titulo">Buscar Administrador</h2>
-        </div>
-        <div class="col-sm-5">
-            <form action="/views/adm/listarAdm.php" method="post">
-                <div class="input-group ">
-                    <input type="text" class="form-control" placeholder="Pesquisar por Nome" name="nomePesquisar">
-                    <button class="btn btn-primary" type="submit" name="pesquisar">Buscar</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-sm-3">
-            <a class="btn btn-success" style="float: right;" href="/views/adm/cadastroAdm.php">CADASTRAR USUÁRIO</a>
-        </div>
-    </div>
-    <div style="margin-top: 3rem;">
-        <h2>Listar Administradores</h2>
-        <div class="table-responsive">
-            <table class="table table-success">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Data de Nascimento</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">CPF</th>
-                        <th scope="col">RG</th>
-                        <th scope="col">Sexo</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">Celular</th>
-                        <th scope="col">Endereço</th>
-                        <th scope="col">Bairro</th>
-                        <th scope="col">Complemento</th>
-                        <th scope="col">CEP</th>
-                        <th scope="col">Número</th>
-                        <th scope="col">Cidade</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Editar/Excluir</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $conexao = mysqli_connect('mysql-container', 'root', 'ecode', 'projectecode');
-                    while ($data = mysqli_fetch_array($usuarios)) {
-                        if ($data['status'] == 1) {
-                            $statuscliente = 'Ativo';
-                        } else {
-                            $statuscliente = 'Inativo';
-                        } ?>
-                        <tr>
-                            <th scope="row">
-                                <?= $data['id']  ?>
-                            </th>
-                            <td><?= $statuscliente  ?></td>
-                            <td><?= $data['nome']  ?></td>
-                            <td><?= formataData($data['dataNascimento']) ?></td>
-                            <td><?= $data['email']  ?></td>
-                            <td><?= $data['cpf']  ?></td>
-                            <td><?= $data['rg']  ?></td>
-                            <td><?= $data['sexo']  ?></td>
-                            <td><?= $data['telefone']  ?></td>
-                            <td><?= $data['celular']  ?></td>
-                            <td><?= $data['endereco']  ?></td>
-                            <td><?= $data['bairro'] ?></td>
-                            <td><?= $data['complemento']  ?></td>
-                            <td><?= $data['cep']  ?></td>
-                            <td><?= $data['numero']  ?></td>
-                            <td><?= $data['cidade']  ?></td>
-                            <td><?= $data['estado']  ?></td>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal1<?= $data['id'] ?>">
-                                <img src="../img/edit.png" alt="" width="20rem" height="20rem">
-                            </button>
+<body style="background-color: #5cb85c;">
+    <main>
+        <?php
+        $conexao = mysqli_connect('mysql-container', 'root', 'ecode', 'projectecode');
+        while ($data = mysqli_fetch_array($usuarios)) {
+        ?>
+            <div class="container" style="background-color: burlywood;">
+                <h1 style="text-align: center;">Cadastro de Usuário</h1>
+                <form class="row g-3" method="POST">
+                    <input type="hidden" name="idAtualizar" value="<?= $data['id'] ?>">
+                    <div class="col-md-6">
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="<?= $data['email'] ?> " id=" inputEmail">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputsenha" class="form-label">Senha</label>
+                        <input type="password" name="senha" class="form-control" value="" id=" inputsenha">
+                    </div>
+                    <div class="col-8">
+                        <label for="inputNome" class="form-label">Nome</label>
+                        <input type="text" name="nome" class="form-control" id="inputNome" value="<?= $data['nome'] ?>" placeholder=" Nome Completo">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputDataNascimento" class="form-label">Data de Nascimento</label>
+                        <input type="date" name="dataNascimento" class="form-control" value="<?= $data['dataNascimento'] ?>" id=" inputDataNascimento">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCPF" class="form-label">CPF</label>
+                        <input type="text" name="cpf" class="form-control" value="<?= $data['cpf'] ?> " id=" inputCPF">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputRG" class="form-label">RG</label>
+                        <input type="text" name="rg" class="form-control" value="<?= $data['rg'] ?>" id=" inputRG">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputSexo" class="form-label">Sexo</label>
+                        <select name="sexo" id="inputSexo" class="form-control ls-select" required>
+                            <option value="" disabled="disabled" selected>Escolher...</option>
 
-                            <div class="modal fade" id="exampleModal1 <?= $data['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Alterar Usuário</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form class="row g-3" action="/usuario/atualizar" method="POST">
-                                                <input type="hidden" name="id" id="id " value="<?= $data['id'] ?>">
-                                                <div class="col-md-12">
-                                                    <label class="form-label">Nome Completo</label>
-                                                    <input type="text" name="nome" class="form-control" value="<?= $data['nome'] ?>" id="nome">
-                                                </div>                                      
-                                                <div class="col-md-6">
-                                                    <label class="form-label">E-mail</label>
-                                                    <input name="email" type="text" id="email" value="<?= $data['email'] ?>" class="form-control">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Senha</label>
-                                                    <input name="senha" type="date" id="senha" value="<?= $data['senha'] ?>" class="form-control" />
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-success">Atualizar</button>
-                                                </div>
-                                            </form>
+                            <?php if ($data['sexo'] == 1) { ?>
+                                <option selected value="1">Masculino</option>
+                                <option value="2">Feminino</option>
+                            <?php } else { ?>
+                                <option value="1">Masculino</option>
+                                <option selected value="2">Feminino</option>
+                            <?php } ?>
+
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputEndereco" class="form-label">Endereco</label>
+                        <input type="text" name="endereco" class="form-control" id="inputEndereco" value="<?= $data['endereco'] ?>" placeholder="Rua dos Bobos">
+                    </div>
+                    <div class="col-2">
+                        <label for="inputNumero" class="form-label">Número</label>
+                        <input type="text" name="numero" class="form-control" id="inputNumero" value="<?= $data['numero'] ?>" placeholder="Número">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputBairro" class="form-label">Bairro</label>
+                        <input type="text" name="bairro" class="form-control" value="<?= $data['bairro'] ?>" id="inputBairro">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputComplemento" class="form-label">Complemento</label>
+                        <input type="text" name="complemento" class="form-control" value="<?= $data['complemento'] ?>" id="inputComplemento">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCidade" class="form-label">Cidade</label>
+                        <input type="text" name="cidade" class="form-control" value="<?= $data['cidade'] ?>" id="inputCidade">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEstado" class="form-label">Estado</label>
+                        <input type="text" name="estado" class="form-control" value="<?= $data['estado'] ?>" id="inputEstado">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputCEP" class="form-label">CEP</label>
+                        <input type="text" name="cep" class="form-control" value="<?= $data['cep'] ?>" id="inputCEP">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputTelefone" class="form-label">Telefone</label>
+                        <input type="text" name="telefone" class="form-control" value="<?= $data['telefone'] ?>" id="inputTelefone">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputCelular" class="form-label">Celular</label>
+                        <input type="text" name="celular" class="form-control" value="<?= $data['celular'] ?>" id="inputCelular">
+                    </div>
+                    <div class="col-md-3">
+                        <?php if ($data['status'] == 1) { ?>
+                            <div class="form-group"><label class="control-label">Status</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text" style="padding: 1rem;">
+                                            <input type="checkbox" name="status" value="1" onclick="teste(this, <?= $data['id'] ?>);" checked>
                                         </div>
                                     </div>
+                                    <div class="form-control"><strong class="text-success" id="labelstatus<?= $data['id'] ?>">Ativo</strong></div>
                                 </div>
                             </div>
-
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2<%= cliente.id %>">
-                                <img src="../img/excluir.png" alt="" width="20rem" height="20rem">
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal2<%= cliente.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel2">Excluir</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <?php   } else {  ?>
+                            <div class="form-group"><label class="control-label">Status</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text" style="padding: 0.6rem;">
+                                            <input type="checkbox" name="status" value="0" onclick="teste(this, <?= $data['id'] ?>);">
                                         </div>
-                                        <div class="modal-body">
-                                            Tem certeza que quer excluir ?
-                                        </div>
-                                        <form action="/usuario/excluir" method="post">
-                                            <div class="modal-footer">
-                                                <input type="hidden" name="id" id="id " value="<%= cliente.id %>">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="submit" class="btn btn-danger">Excluir</button>
-                                            </div>
-                                        </form>
                                     </div>
+                                    <div class="form-control"><strong class="text-danger" id="labelstatus<?= $data['id'] ?>">Inativo</strong></div>
                                 </div>
                             </div>
-                            </td>
-                        </tr>
-                    <?php
-                    }
-                    mysqli_close($conexao);
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+                        <?php  } ?>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" name="atualizar" class="btn btn-success" style=" width: 100%;">Atualizar</button>
+                    </div>
+                </form>
+            </div>
+        <?php
+        }
+        mysqli_close($conexao);
+        ?>
+    </main>
+    <script>
+        function teste(tag, id) {
+            let labelAtivo = document.getElementById('labelstatus' + id);
+            if (tag.value == '1') {
+                tag.value = 0;
+                labelAtivo.className = "text-danger";
+                labelAtivo.innerHTML = "Inativo";
+
+            } else {
+                tag.value = 1;
+                labelAtivo.className = "text-success";
+                labelAtivo.innerHTML = "Ativo";
+            }
+            console.log(tag.value);
+        }
+    </script>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 <?php
+require_once('../../verificarSessaoAdmin.php');
 if (isset($_POST['salvar'])) {
     $nome = $_POST['nome'];
     $email = $_POST['email'];
@@ -13,7 +14,7 @@ if (isset($_POST['salvar'])) {
     header("Refresh: 0; url = IndexAdm.php");
 }
 require_once('../../dependencias.php');
-require_once('../../verificarSessao.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="pr-br">
@@ -55,9 +56,9 @@ require_once('../../verificarSessao.php');
                                 <input type="password" name="senha" class="form-control" id="InputPassword">
                             </div>
                             <div class="botao">
-                                <a type="button" class="btn btn-warning" style="width: 40%; margin-right: 2rem;" href="/views/adm/listarAdm.php"><b> Ir para Gestão de Administradores</b></a>
-                                <a type="button" class="btn btn-primary" style="width: 20%; margin-right: 2rem;" href="IndexAdm.php"><b> INÍCIO</b></a>
-                                <button type="submit" name="salvar" class="btn btn-success " style="width: 40%;">Salvar</button>
+                                <a type="button" class="btn btn-warning" style="width: 30%; margin-right: 1rem;" href="/views/adm/listarAdm.php"><b>Listar</b></a>
+                                <a type="button" class="btn btn-primary" style="width: 35%; margin-right: 1rem;" href="IndexAdm.php"><b> INÍCIO</b></a>
+                                <button type="submit" name="salvar" class="btn btn-success " style="width: 35%;">Salvar</button>
                             </div>
                         </form>
                     </div>

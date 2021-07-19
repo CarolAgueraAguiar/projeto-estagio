@@ -1,4 +1,7 @@
 <?php
+require_once('../../verificarSessaoAdmin.php');
+
+
 $conexao = mysqli_connect('mysql-container', 'root', 'ecode', 'projectecode');
 $where = "";
 if (!empty($_POST['nomePesquisar'])) {
@@ -35,7 +38,6 @@ if (isset($_POST['atualizar'])) {
     mysqli_close($conexao);
 }
 require_once('../../dependencias.php');
-require_once('../../verificarSessao.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -70,6 +72,10 @@ require_once('../../verificarSessao.php');
                 margin-top: 1rem;
                 width: 100%;
             }
+            .buton{
+                width: 100%;
+                margin-top: 1rem;
+            }
         }
     </style>
 </head>
@@ -91,7 +97,7 @@ require_once('../../verificarSessao.php');
             <a class="btn btn-success" style="float: right;" href="/views/adm/cadastroAdm.php">CADASTRAR USUÁRIO</a>
         </div>
         <div class="col-sm-1">
-            <a class="btn btn-outline-primary" style="float: right;" href="IndexAdm.php">INÍCIO</a>
+            <a class="btn btn-outline-primary buton" style="float: right;" href="IndexAdm.php">INÍCIO</a>
         </div>
     </div>
     <div style="margin-top: 3rem;">
@@ -141,10 +147,10 @@ require_once('../../verificarSessao.php');
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label">Senha</label>
-                                                        <input name="senhaAtualizar" type="password" id="senha" value="<?= $data['senha'] ?>" class="form-control" />
+                                                        <input name="senhaAtualizar" type="password" id="senha" value="" class="form-control" />
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                        <button type="button" class="btn btn-secondary buton" data-bs-dismiss="modal">Cancelar</button>
                                                         <button type="submit" name="atualizar" class="btn btn-success">Atualizar</button>
                                                     </div>
                                                 </form>
