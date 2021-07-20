@@ -11,6 +11,17 @@ $where = "";
 if (!empty($_POST['nomePesquisar'])) {
     $where = " where nome like '%" . $_POST['nomePesquisar'] . "%'";
 }
+
+if (!empty($_GET['busca-sexo'])) {
+    $where = " where sexo = {$_GET['busca-sexo']}";
+}
+if (!empty($_GET['busca-estado'])) {
+    $where = " where estado = '{$_GET['busca-estado']}'";
+}
+
+if (!empty($_GET['dataCriacao'])) {
+    $where = " where dataCriacao like '%{$_GET['dataCriacao']}%'";
+}
 $sqlPesquisar = "select * from pessoa" . $where;
 $usuarios = mysqli_query($conexao, $sqlPesquisar);
 mysqli_close($conexao);
@@ -21,6 +32,7 @@ if (isset($_POST['excluir'])) {
     mysqli_close($conexao);
     header("Refresh: 0");
 }
+
 if (isset($_POST['atualizar'])) {
     $nome = $_POST['nome'];
     $email = $_POST['email'];
@@ -95,6 +107,11 @@ require_once('../../dependencias.php');
             text-align: center;
         }
 
+        .buton {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
         @media screen and (max-width: 992px) {
             .col-sm-3 {
                 display: block !important;
@@ -107,11 +124,6 @@ require_once('../../dependencias.php');
             .btn.btn-success {
                 margin-top: 1rem;
                 width: 100%;
-            }
-
-            .buton {
-                width: 100%;
-                margin-top: 1rem;
             }
         }
     </style>
@@ -178,23 +190,84 @@ require_once('../../dependencias.php');
 </head>
 
 <body style="background-color: #F2F2F2;" class="form-login container">
-    <div class="row">
-        <div class="col-sm-4 " style="display: flex; float: left;">
+    <div class="row" style="margin-bottom: 2rem;">
+        <div class="col-sm-12">
             <h2 class="titulo">Buscar Usuário</h2>
         </div>
-        <div class="col-sm-5">
-            <form action="/views/adm/listarAdm.php" method="post">
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <form action="/views/adm/listarUsers.php" method="post">
                 <div class="input-group ">
                     <input type="text" class="form-control" placeholder="Pesquisar por Nome" name="nomePesquisar">
-                    <button class="btn btn-primary" type="submit" name="pesquisar">Buscar</button>
+                    <button class="btn btn-warning" type="submit">Buscar</button>
                 </div>
             </form>
         </div>
-        <div class="col-sm-2">
-            <a class="btn btn-success" style="float: right;" href="../../views/user/cadastroUser.php">CADASTRAR USUÁRIO</a>
+        <div class="col-sm-3 ">
+            <form action="/views/adm/listarUsers.php" method="get">
+                <div class="input-group">
+                    <select name="busca-sexo" class="form-control" id="busca-sexo">
+                        <option selected>Escolha...</option>
+                        <option value="2">Masculino</option>
+                        <option value="1">Feminino</option>
+                    </select>
+                    <button class="btn btn-warning" type="submit">Buscar</button>
+                </div>
+            </form>
         </div>
-        <div class="col-sm-1">
-            <a class="btn btn-outline-primary buton" style="float: right;" href="IndexAdm.php">INÍCIO</a>
+        <div class="col-sm-3 ">
+            <form action="/views/adm/listarUsers.php" method="get">
+                <div class="input-group">
+                    <select name="busca-estado" class="form-control" id="busca-estado">
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                        <option value="EX">Estrangeiro</option>
+                    </select>
+                    <button class="btn btn-warning" type="submit">Buscar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+            <form action="/views/adm/listarUsers.php" method="GET">
+                <div class="input-group">
+                    <input type="date" class="form-control" placeholder="Pesquisar por Data" name="dataCriacao">
+                    <button class="btn btn-warning" type="submit">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <a class="btn btn-success buton" href="../../views/user/cadastroUser.php">CADASTRAR USUÁRIO</a>
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary buton" href="IndexAdm.php">INÍCIO</a>
         </div>
     </div>
     <div style="margin-top: 3rem;">
@@ -297,18 +370,18 @@ require_once('../../dependencias.php');
                                                             <option value="" disabled="disabled" selected>Escolher...</option>
 
                                                             <?php if ($data['sexo'] == 1) { ?>
-                                                                <option selected value="1">Masculino</option>
-                                                                <option value="2">Feminino</option>
+                                                                <option selected value="1">Feminino</option>
+                                                                <option value="2">Masculino</option>
                                                             <?php } else { ?>
-                                                                <option value="1">Masculino</option>
-                                                                <option selected value="2">Feminino</option>
+                                                                <option value="1">Feminino</option>
+                                                                <option selected value="2">Masculino</option>
                                                             <?php } ?>
 
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label">CEP</label>
-                                                        <input name="cep" type="text" id="cep" value="" size="10" maxlength="9" placeholder="digite seu CEP"  onblur="pesquisacep(this.value);" class="form-control">
+                                                        <input name="cep" type="text" id="cep" value="" size="10" maxlength="9" placeholder="digite seu CEP" onblur="pesquisacep(this.value);" class="form-control">
                                                     </div>
                                                     <div class="col-md-8">
                                                         <label for="inputEndereco" class="form-label">Endereco</label>
@@ -370,7 +443,7 @@ require_once('../../dependencias.php');
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary buton" data-bs-dismiss="modal">Cancelar</button>
-                                                        <button type="submit" name="atualizar" class="btn btn-success">Atualizar</button>
+                                                        <button type="submit" name="atualizar" class="btn btn-success buton">Atualizar</button>
                                                     </div>
                                                 </form>
                                             </div>

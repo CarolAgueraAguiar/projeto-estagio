@@ -30,3 +30,11 @@ CREATE TABLE `administrador` (
   `senha` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+
+INSERT INTO pessoa (nome,dataNascimento,cpf,rg,email,sexo,senha,telefone,celular,endereco,bairro,complemento,cep,numero,cidade,estado,status,dataCriacao) VALUES
+	 ('Sofia Aguera','2012-12-18','1111111','1332232','sofiaguera@gmail.com',2,'$2y$10$OW9sS9/nTpJuHWaDZod3ZukZD9KZ2GStqWT8WU5WzgtozdUBBfrky','999999999','4444','Avenida Brasil','Zona VII','seila','',3333,'Umuarama','PR',1,'2021-07-19 23:27:12'),
+	 ('Marcia Aguera','1978-06-22','11111','3333','marcia@gmail.com',1,'$2y$10$gbkn9.gSCiZnof7CnvtlQeFjRFdKLTc8E5v43KOUJd7xJpyY4FOdK','(44) 3639-2222','(44) 999999999','Rua Treze de Maio','Jardim Colibri','nao','87506340',1829,'Umuarama','PR',1,'2021-07-19 23:27:12');
+
+INSERT INTO administrador (nome,email,senha) VALUES
+	 ('Carolina Aguera','carolaguerabr@gmail.com','$2y$10$1/q4GhPaKg9rBuS5jg3gu.RlnDG285jeKhzJIgD1etr8yM83SNvNK'),
+	 ('Marcia Aguera','marcia@gmail.com','$2y$10$diJvturw6i6LVtR5DDSPRONLJI5J0gAknhDCb9XRRGGAz4psPfpFW');

@@ -122,15 +122,14 @@ require_once('../../dependencias.php');
                         <label for="inputSexo" class="form-label">Sexo</label>
                         <select name="sexo" id="inputSexo" class="form-control ls-select" required>
                             <option value="" disabled="disabled" selected>Escolher...</option>
-
+                            
                             <?php if ($data['sexo'] == 1) { ?>
-                                <option selected value="1">Masculino</option>
-                                <option value="2">Feminino</option>
+                                <option selected value="1">Feminino</option>
+                                <option value="2">Masculino</option>
                             <?php } else { ?>
-                                <option value="1">Masculino</option>
-                                <option selected value="2">Feminino</option>
+                                <option value="1">Feminino</option>
+                                <option selected value="2">Masculino</option>
                             <?php } ?>
-
                         </select>
                     </div>
                     <div class="col-12">
