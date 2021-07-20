@@ -34,12 +34,6 @@ docker build -t=mysql-image -f ./docker/mysql/Dockerfile .
 ```
 docker build -t=php-image -f ./docker/php/Dockerfile .
 ```
-- Execute no terminal o script que está na pasta mysql
-```
-user@user:~/Área de Trabalho/projeto-ecode$ docker exec -it mysql-container bash
-user@user:~/Área de Trabalho/projeto-ecode$ mysql -u root -p < /var/lib/mysql/script.sql
-insira a senha: ecode
-```
 
 - Execute o comando abaixo para rodar o container mysql
 ```
@@ -48,6 +42,13 @@ sudo docker run -d --rm -v="$PWD"/mysql:/var/lib/mysql -p 3307:3306 --name mysql
 - Ainda no terminal, execute o comando abaixo para rodar o container php
 ```
 sudo docker run -d --rm -v="$PWD":/var/www/html -p 8888:80 --name=php-container --link mysql-container php-image
+```
+
+- Execute no terminal o script que está na pasta mysql
+```
+user@user:~/Área de Trabalho/projeto-ecode$ docker exec -it mysql-container bash
+user@user:~/Área de Trabalho/projeto-ecode$ mysql -u root -p < /var/lib/mysql/script.sql
+insira a senha: ecode
 ```
 #
 ## Executando o FRONT-END
