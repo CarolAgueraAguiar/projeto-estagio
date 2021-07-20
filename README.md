@@ -34,6 +34,15 @@ docker build -t=mysql-image -f ./docker/mysql/Dockerfile .
 ```
 docker build -t=php-image -f ./docker/php/Dockerfile .
 ```
+- Execute no terminal o script que está na pasta mysql
+```
+user@user:~/Área de Trabalho/projeto-ecode$ ls
+user@user:~/Área de Trabalho/projeto-ecode$ bootstrap dependencias.php docker  img  index.php  logout.php  mysql  README.md  sql  verificarSessaoAdmin.php  verificarSessaoUser.php  views
+user@user:~/Área de Trabalho/projeto-ecode$ cd mysql
+user@user:~/Área de Trabalho/projeto-ecode/mysql$ docker exec -it mysql-container bash
+user@user:~/Área de Trabalho/projeto-ecode/mysql$ mysql -u root -p < /var/lib/mysql/script.sql
+insira a senha: ecode
+```
 - Execute o comando abaixo para rodar o container mysql
 ```
 sudo docker run -d --rm -v="$PWD"/mysql:/var/lib/mysql -p 3307:3306 --name mysql-container mysql-image
