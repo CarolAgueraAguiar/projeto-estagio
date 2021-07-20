@@ -22,12 +22,12 @@
 
 - Vá ao diretório raiz da pasta do projeto.
 ```
-    user@user:~/Área de Trabalho/projeto-ecode$ ls
-    user@user:~/Área de Trabalho/projeto-ecode$ bootstrap dependencias.php docker  img  index.php  logout.php  mysql  README.md  sql  verificarSessaoAdmin.php  verificarSessaoUser.php  views
+user@user:~/Área de Trabalho/projeto-ecode$ ls
+user@user:~/Área de Trabalho/projeto-ecode$ bootstrap dependencias.php docker  img  index.php  logout.php  mysql  README.md  sql  verificarSessaoAdmin.php  verificarSessaoUser.php  views
 ```
 - Abra o terminal e execute o comando para criar uma imagem mysql a partir do Dockerfile
 ```
-    docker build -t=mysql-image -f ./docker/mysql/Dockerfile .
+docker build -t=mysql-image -f ./docker/mysql/Dockerfile .
 ```
 - Ainda no terminal, execute o comando abaixo para criar uma imagem php a partir do Dockefile
 
