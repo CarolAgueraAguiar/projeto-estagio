@@ -54,5 +54,6 @@ insira a senha: ecode
 ## Executando o FRONT-END
 
 - No navegador vá até o link http://localhost:8888
+- Email do Administrador: carolaguerabr@gmail.com e Senha: 1234
 
 ## **Agora só navegar pelo projeto**
