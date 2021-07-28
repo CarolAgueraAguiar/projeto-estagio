@@ -39,6 +39,10 @@ docker build -t=php-image -f ./docker/php/Dockerfile .
 ```
 sudo docker run -d --rm -v="$PWD"/mysql:/var/lib/mysql -p 3307:3306 --name mysql-container mysql-image
 ```
+- Execute o comando de copiar o arquivo script.sql para a pasta mysql
+```
+cp ./sql/script.sql ./mysql
+```
 - Ainda no terminal, execute o comando abaixo para rodar o container php
 ```
 sudo docker run -d --rm -v="$PWD":/var/www/html -p 8888:80 --name=php-container --link mysql-container php-image
